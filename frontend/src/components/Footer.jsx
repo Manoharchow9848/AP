@@ -22,11 +22,11 @@ export default function FooterCom() {
               <Footer.Title title='About' />
               <Footer.LinkGroup col>
                 <Footer.Link
-                  href=''
+                  href='\locator'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
-                  MY PORTFOLIO
+                 Find Your MLA
                 </Footer.Link>
                 <Footer.Link
                   href='/about'
@@ -63,7 +63,7 @@ export default function FooterCom() {
         <div className='w-full sm:flex sm:items-center sm:justify-between'>
           <Footer.Copyright
             href='#'
-            by="KMC's blog"
+            by="Politic's App"
             year={new Date().getFullYear()}
           />
           <div className="flex gap-6 sm:mt-0 mt-4 sm:justify-center">

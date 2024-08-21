@@ -8,6 +8,9 @@ import Footer from './components/Footer'
 import Protect from './components/Protect'
 import PrivateRoute from './components/PrivateRouutes'
 import DashBoard from './pages/DashBoard'
+import LocateMla from './pages/LocateMla'
+import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute'
+import UpdateMla from './pages/UpdateMla'
 function App() {
   
 
@@ -22,9 +25,15 @@ function App() {
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
         </Route>
+        <Route element={<OnlyAdminPrivateRoute />}>
+         
+          <Route path='/update-mla/:mlaId' element={<UpdateMla />} />
+          
+        </Route>
 
         <Route element={<PrivateRoute />}>
-        <Route path='/dashboard' element={<DashBoard />} />      
+        <Route path='/dashboard' element={<DashBoard />} />   
+        <Route path='/locator' element={<LocateMla />} />  
           </Route>
       </Routes>
       <Footer />

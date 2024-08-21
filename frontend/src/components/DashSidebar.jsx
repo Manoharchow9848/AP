@@ -78,7 +78,24 @@ export default function DashSidebar() {
                   Users
                 </Sidebar.Item>
               </Link>
-              
+              <Link to='/dashboard?tab=create'>
+                <Sidebar.Item
+                  active={tab === 'create'}
+                  icon={HiOutlineUserGroup}
+                  as='div'
+                >
+                  Add MLA's
+                </Sidebar.Item>
+              </Link>
+              <Link to='/dashboard?tab=mlas'>
+                <Sidebar.Item
+                  active={tab === 'mlas'}
+                  icon={HiOutlineUserGroup}
+                  as='div'
+                >
+                   MLA's
+                </Sidebar.Item>
+              </Link>
             </>
           )}
           <Sidebar.Item

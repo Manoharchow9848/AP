@@ -59,16 +59,7 @@ export default function Header() {
         </span>
         APP
       </Link>
-      <form onSubmit={handleSubmit}>
-        <TextInput
-          type='text'
-          placeholder='Search...'
-          rightIcon={AiOutlineSearch}
-          className='hidden lg:inline'
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </form>
+     
       
       <div className='flex gap-2 md:order-2'>
         <Button
@@ -115,9 +106,9 @@ export default function Header() {
         <Navbar.Link active={path === '/about'} as={'div'}>
           <Link to='/about'>About</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === '/projects'} as={'div'}>
-          <Link to='/projects'>Projects</Link>
-        </Navbar.Link>
+        {currentUser  && <Navbar.Link active={path === '/locator'} as={'div'}>
+          <Link to='/locator'>Find Your MLA</Link>
+        </Navbar.Link>}
       </Navbar.Collapse>
     </Navbar>
   );
