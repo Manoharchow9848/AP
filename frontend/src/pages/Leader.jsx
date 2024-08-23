@@ -1,22 +1,24 @@
+
 import React, { useState, useEffect } from "react";
 import { Button, Select, TextInput } from "flowbite-react";
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Import the carousel CSS
 
-const LocateMla = () => {
+const Leader = () => {
   const [districts, setDistricts] = useState([]);
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [mandals, setMandals] = useState([]);
   const [selectedMandal, setSelectedMandal] = useState("");
-  const [mla, setMla] = useState({});
+  const [leader, setLeader] = useState({});
   const [sidebarData, setSidebarData] = useState({
     district: "",
-    constituencies: "",
+    mandal: "",
+    searchTerm:""
   });
 
   useEffect(() => {
     // Fetch all districts when the component mounts
-    fetch("/api/districts")
+    fetch("/api/leader/dist")
       .then((response) => response.json())
       .then((data) => setDistricts(data))
       .catch((error) => console.error("Error fetching districts:", error));
@@ -30,7 +32,7 @@ const LocateMla = () => {
       setSelectedDistrict(districtName);
 
       // Fetch mandals for the selected district
-      fetch(`/api/mandals?districtName=${districtName}`)
+      fetch(`/api/leader/mand?district=${districtName}`)
         .then((response) => response.json())
         .then((data) => setMandals(data.mandals))
         .catch((error) => console.error("Error fetching mandals:", error));
@@ -40,28 +42,37 @@ const LocateMla = () => {
       }
     }
   };
+console.log(sidebarData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const res = await fetch(
-        `/api/mla/getmla?district=${sidebarData.district}&constituencies=${sidebarData.constituencies}`
+        `/api/leader/getlead?district=${sidebarData.district}&mandal=${sidebarData.mandal}&searchTerm=${sidebarData.searchTerm}`
       );
       if (res.ok) {
         const data = await res.json();
-        setMla(data[0]);
+        setLeader(data[0]);
       }
     } catch (error) {
       console.log(error.message);
     }
   };
+  console.log(leader);
+  
+  const handleChange = (e) => {
+    if (e.target.id === 'searchTerm') {
+      setSidebarData({ ...sidebarData, searchTerm: e.target.value });
+    }
+   
+  };
 
   const handleMandalChange = (e) => {
     const mandalName = e.target.value;
     setSelectedMandal(mandalName);
-    if (e.target.id === "constituencies") {
-      setSidebarData({ ...sidebarData, constituencies: e.target.value });
+    if (e.target.id === "mandal") {
+      setSidebarData({ ...sidebarData, mandal: e.target.value });
     }
   };
 
@@ -83,22 +94,38 @@ const LocateMla = () => {
                 </option>
               ))}
             </Select>
+           
           </div>
+          
           <div className="flex items-center gap-2">
-            <label className="font-semibold">Constituencies:</label>
+            <label className="font-semibold">mandal</label>
             <Select
               value={selectedMandal}
               onChange={handleMandalChange}
               disabled={mandals.length === 0}
-              id="constituencies"
+              id="mandal"
             >
-              <option value="">Select a constituencies</option>
+              <option value="">Select a mandal</option>
               {mandals.map((mandal) => (
                 <option key={mandal} value={mandal}>
                   {mandal}
                 </option>
               ))}
             </Select>
+        
+            
+          </div>
+          <div className='flex   items-center gap-2'>
+            <label className='whitespace-nowrap font-semibold'>
+               Leader Name:
+            </label>
+            <TextInput
+              placeholder='Search...'
+              id='searchTerm'
+              type='text'
+              value={sidebarData.searchTerm}
+              onChange={handleChange}
+            />
           </div>
           <Button type="submit" outline gradientDuoTone="purpleToPink">
             Apply Filters
@@ -107,63 +134,48 @@ const LocateMla = () => {
       </div>
       <div className="w-full">
         <h1 className="text-3xl font-semibold sm:border-b border-gray-500 p-3 mt-5">
-          MLA results:
+          Leader results:
         </h1>
-        <div className="p-7 flex flex-wrap gap-4">
-          {mla && mla._id ? (
+       <div className="p-7 flex flex-wrap gap-4">
+          {leader && leader._id ? (
             <div className="container mx-auto p-8">
               <div className="bg-white dark:bg-black shadow-lg rounded-lg overflow-hidden">
                 <div className="bg-gradient-to-r from-blue-500 to-indigo-600 h-32"></div>
                 <div className="flex justify-center -mt-16">
                   <img
-                    src={mla.profilePicture}
-                    alt={`${mla.name} profile`}
+                    src={leader.profilePicture}
+                    alt={`${leader.name} profile`}
                     className="w-32 h-32 rounded-full border-4 border-white object-cover"
                   />
                 </div>
                 <div className="text-center px-6 py-4">
-                  <h2 className="text-3xl font-bold text-gray-800">{mla.name}</h2>
-                  <p className="text-gray-600 font-semibold mt-2">Party: {mla.partyName}</p>
+                  <h2 className="text-3xl font-bold text-gray-800">{leader.name}</h2>
+                  <p className="text-gray-600 font-semibold mt-2">Party: {leader.partyName}</p>
+                  <p className="text-gray-600 font-semibold mt-2">partyMembershipId: {leader.partyMembershipId}</p>
                 </div>
                 <div className="px-6 py-4 border-t border-gray-200">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <p className="text-gray-600"><span className="font-semibold">Father's Name:</span> {mla.fatherName}</p>
-                      <p className="text-gray-600"><span className="font-semibold">Age:</span> {mla.age}</p>
-                      <p className="text-gray-600"><span className="font-semibold">District:</span> {mla.district}</p>
-                      <p className="text-gray-600"><span className="font-semibold">Constituency:</span> {mla.constituencies}</p>
+                      <p className="text-gray-600"><span className="font-semibold">Father's Name:</span> {leader.fatherName}</p>
+                      <p className="text-gray-600"><span className="font-semibold">Age:</span> {leader.age}</p>
+                      <p className="text-gray-600"><span className="font-semibold">District:</span> {leader.district}</p>
+                      <p className="text-gray-600"><span className="font-semibold">mandal:</span> {leader.mandal}</p>
+                      <p className="text-gray-600"><span className="font-semibold">Village:</span> {leader.village}</p>
                     </div>
                     <div>
-                      <p className="text-gray-600"><span className="font-semibold">Phone:</span> {mla.phoneNumber}</p>
-                      <p className="text-gray-600"><span className="font-semibold">Email:</span> {mla.email}</p>
-                      <p className="text-gray-600"><span className="font-semibold">Address:</span> {mla.address}</p>
-                      <p className="text-gray-600"><span className="font-semibold">Qualification:</span> {mla.Qualification}</p>
+                      <p className="text-gray-600"><span className="font-semibold">Phone:</span> {leader.phoneNumber}</p>
+                      <p className="text-gray-600"><span className="font-semibold">Email:</span> {leader.email}</p>
+                      <p className="text-gray-600"><span className="font-semibold">Address:</span> {leader.address}</p>
+                      <p className="text-gray-600"><span className="font-semibold">Qualification:</span> {leader.Qualification}</p>
+                      <p className="text-gray-600"><span className="font-semibold">Designation:</span> {leader.designation}</p>
                     </div>
                   </div>
                 </div>
-                {mla.services && mla.services.length > 0 && (
-                  <div className="p-6 border-t border-gray-200 ">
-                    <h3 className="text-xl font-semibold mb-4">Services</h3>
-                    <Carousel>
-                      {mla.services.map((service, index) => (
-                        <div className="relative w-full h-full overflow-hidden">
-                        <img
-                          src={service.image}
-                          alt={`Service ${index}`}
-                          className="w-full h-full object-cover"
-                        />
-                        <p className="absolute bottom-0 bg-opacity-60 bg-black text-white p-2 w-full text-center">
-                          {service.description}
-                        </p>
-                      </div>
-                      ))}
-                    </Carousel>
-                  </div>
-                )}
+               
               </div>
             </div>
           ) : (
-            <p className="text-xl text-gray-500">No MLA found.</p>
+            <p className="text-xl text-gray-500">No Leader found.</p>
           )}
         </div>
       </div>
@@ -171,4 +183,5 @@ const LocateMla = () => {
   );
 };
 
-export default LocateMla;
+export default Leader;
+

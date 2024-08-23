@@ -6,6 +6,7 @@ import authRoutes from './routes/auth.route.js'
 import userRoutes from './routes/user.route.js';
 import districtRoutes from './routes/district.route.js'
 import mlaRoutes from './routes/mla.route.js'
+import mandalRoutes from './routes/mandal.route.js'
 dotenv.config();
 
 const app = express();
@@ -16,6 +17,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/user',userRoutes);
 app.use('/api',districtRoutes);
 app.use('/api/mla',mlaRoutes);
+app.use('/api/leader',mandalRoutes);
 const port = 3000;
 
 connectdb().then(()=>{

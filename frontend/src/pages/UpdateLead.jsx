@@ -1,4 +1,5 @@
-import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
+import React from 'react'
+import { Alert, Button, FileInput, Select, TextInput,Label } from 'flowbite-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import {
@@ -14,7 +15,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-export default function UpdateMla() {
+export default function UpdateLead() {
   const navigate = useNavigate();
   const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
@@ -30,43 +31,51 @@ export default function UpdateMla() {
   const [selectedMandal, setSelectedMandal] = useState("");
   const [mandals, setMandals] = useState([]);
   const [partyName, setPartyName] = useState("");
-  const [services, setServices] = useState([]);
+  const [partyMembershipIdPic, setPartyMembershipIdPic] = useState(null);
+  const [partyMembershipIdPicUrl, setPartyMembershipIdPicUrl] = useState(null);
+  const [partyMembershipIdPicUploadProgress, setPartyMembershipIdPicUploadProgress] = useState(null);
+  const [partyMembershipIdPicUploading, setPartyMembershipIdPicUploading] = useState(false);
 
-  const { mlaId } = useParams();
+  const { leadId } = useParams();
 
   useEffect(() => {
     // Fetch all districts when the component mounts
-    fetch("/api/districts")
+    fetch("/api/leader/dist")
       .then((response) => response.json())
       .then((data) => setDistricts(data))
       .catch((error) => console.error("Error fetching districts:", error));
   }, []);
 
   useEffect(() => {
-    if (mlaId) {
+    if (leadId) {
       // Fetch MLA details when the component mounts or MLA ID changes
-      fetch(`/api/mla/getmla?mlaId=${mlaId}`)
+      fetch(`/api/leader/getlead?leadId=${leadId}`)
         .then((res) => res.json())
         .then((data) => {
           setFormData(data[0]);
-          setServices(data[0]?.services || []);
+          
         })
         .catch((error) => console.error("Error fetching MLA data:", error));
     }
-  }, [mlaId]);
+  }, [leadId]);
 
   useEffect(() => {
     if (imageFile) {
       uploadImage();
     }
   }, [imageFile]);
+  useEffect(() => {
+    if (partyMembershipIdPic) {
+      uploadPartyMembershipIdPic();
+    }
+  }, [partyMembershipIdPic]);
 
   const handleDistrictChange = (e) => {
     const districtName = e.target.value;
     setFormData({ ...formData, district: districtName });
     setSelectedDistrict(districtName);
 
-    fetch(`/api/mandals?districtName=${districtName}`)
+    fetch(`/api/leader/mand?district=${districtName}`)
       .then((response) => response.json())
       .then((data) => setMandals(data.mandals))
       .catch((error) => console.error("Error fetching mandals:", error));
@@ -83,12 +92,21 @@ export default function UpdateMla() {
   };
 
   const filePickerRef = useRef();
+  const partyMembershipIdPicPickerRef= useRef()
+console.log(formData);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
       setImageFileUrl(URL.createObjectURL(file));
+    }
+  };
+  const handlePartyMembershipIdPicChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setPartyMembershipIdPic(file);
+      setPartyMembershipIdPicUrl(URL.createObjectURL(file));
     }
   };
 
@@ -122,72 +140,56 @@ export default function UpdateMla() {
       }
     );
   };
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-  };
-
-  const handleServiceFileChange = (index, file) => {
-    console.log(file);
-    
-    const newServices = [...services];
-    newServices[index].uploading = true;
-    setServices(newServices);
-
+  const uploadPartyMembershipIdPic = async () => {
+    setPartyMembershipIdPicUploading(true);
     const storage = getStorage(app);
-    const fileName = new Date().getTime() + file.name;
+    const fileName = new Date().getTime() + partyMembershipIdPic.name;
     const storageRef = ref(storage, fileName);
-    const uploadTask = uploadBytesResumable(storageRef, file);
+    const uploadTask = uploadBytesResumable(storageRef, partyMembershipIdPic);
 
     uploadTask.on(
       "state_changed",
       (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        newServices[index].uploadProgress = progress.toFixed(0);
-        setServices([...newServices]);
+        setPartyMembershipIdPicUploadProgress(progress.toFixed(0));
       },
       (error) => {
-        newServices[index].uploading = false;
-        newServices[index].uploadProgress = null;
-        setServices([...newServices]);
+        console.error("Error uploading partyMembershipIdPic:", error);
+        setPartyMembershipIdPicUploading(false);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          newServices[index].image = downloadURL;
-          newServices[index].uploading = false;
-          newServices[index].uploadProgress = null;
-          setServices([...newServices]);
+          setPartyMembershipIdPicUrl(downloadURL);
+          setFormData({ ...formData, partyMembershipIdpicture: downloadURL });
+          setPartyMembershipIdPicUploading(false);
         });
       }
     );
   };
 
-  const handleServiceChange = (index, key, value) => {
-    const newServices = [...services];
-    newServices[index][key] = value;
-    setServices(newServices);
-  };
-  console.log(services);
-  
-  const addService = () => {
-    setServices([...services, { description: "", image: "", uploading: false, uploadProgress: null }]);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const removeService = (index) => {
-    const newServices = services.filter((_, i) => i !== index);
-    setServices(newServices);
-  };
+ 
+
+  
+
+ 
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch(`/api/mla/update?mlaId=${mlaId}`, {
+      const res = await fetch(`/api/leader/update?leadId=${leadId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...formData, services }),
+        body: JSON.stringify({ ...formData, }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -198,7 +200,7 @@ export default function UpdateMla() {
       if (res.ok) {
         setUpdateUserSuccess("MLA updated successfully!");
         setFormData({});
-        navigate(`/dashboard?tab=mlas`);
+        navigate(`/dashboard?tab=leaders`);
       }
     } catch (error) {
       console.log(error.message);
@@ -334,6 +336,27 @@ export default function UpdateMla() {
           onChange={handleChange}
           value={formData.address}
         />
+         <TextInput
+          type="text"
+          id="village"
+          placeholder="village"
+          onChange={handleChange}
+          value={formData.village}
+        />
+        <TextInput
+          type="text"
+          id="designation"
+          placeholder="designation"
+          onChange={handleChange}
+          value={formData.designation}
+        />
+        <TextInput
+          type="text"
+          id="partyMembershipId"
+          placeholder="partyMembershipId"
+          onChange={handleChange}
+          value={formData.partyMembershipId}
+        />
         <TextInput
           type="text"
           id="Qualification"
@@ -341,78 +364,42 @@ export default function UpdateMla() {
           onChange={handleChange}
           value={formData.Qualification}
         />
-        <div className="services-section">
-          <h2 className="text-xl font-semibold">Services</h2>
-          {services.map((service, index) => (
-            <div key={index} className="service-item my-4">
-              <TextInput
-                type="text"
-                placeholder="Service Description"
-                value={service.description}
-                onChange={(e) =>
-                  handleServiceChange(index, 'description', e.target.value)
-                }
-              />
-              <div className="flex items-center gap-2">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleServiceFileChange(index, e.target.files[0])}
-                  hidden
-                  id={`service-image-${index}`}
-                />
-                <label
-                  htmlFor={`service-image-${index}`}
-                  className="dark:text-white dark:bg-black cursor-pointer bg-gray-200 p-2 rounded"
-                >
-                  Upload Service Image
-                </label>
-                {service.imageUrl && (
-                  <img
-                    src={service.imageUrl}
-                    alt="Service"
-                    className="w-12 h-12 object-cover rounded"
-                  />
-                )}
-                {service.uploading && (
-                  <CircularProgressbar
-                    value={service.uploadProgress}
-                    text={`${service.uploadProgress}%`}
-                    strokeWidth={5}
-                    styles={{
-                      root: {
-                        width: '50px',
-                        height: '50px',
-                      },
-                      path: {
-                        stroke: `rgba(62, 152, 199, ${service.uploadProgress / 100})`,
-                      },
-                    }}
-                  />
-                )}
-              </div>
-              <Button
-                type="button"
-                color="failure"
-                onClick={() => removeService(index)}
-                className="mt-2"
-              >
-                Remove Service
-              </Button>
-            </div>
-          ))}
-          <Button type="button" onClick={addService} className="mt-4">
-            Add Another Service
-          </Button>
-        </div>
+         {/* Party Membership ID Picture */}
+         
+        {partyMembershipIdPicUploading && (
+          <div>
+            <CircularProgressbar
+              value={partyMembershipIdPicUploadProgress || 0}
+              text={`${partyMembershipIdPicUploadProgress || 0}%`}
+            />
+          </div>
+        )}
+        <input type='file'
+          id="partyMembershipIdpicture"
+          accept="image/*"
+          onChange={handlePartyMembershipIdPicChange}
+          ref={partyMembershipIdPicPickerRef}
+          hidden
+        />
+        {formData.partyMembershipIdpicture  && (
+          <div  onClick={() => partyMembershipIdPicPickerRef.current.click()}>
+            <img
+              src={partyMembershipIdPicUrl || formData.partyMembershipIdpicture}
+              alt="Party Membership ID Preview"
+              className="h-40 w-40 object-cover mt-2 rounded-full"
+            />
+          </div>
+        )}
+       
+        
         <Button
           type="submit"
           gradientDuoTone="purpleToBlue"
           outline
-          disabled={loading || imageFileUploading || services.some(service => service.uploading)}
+          disabled={loading || imageFileUploading }
           className="mt-6"
         >
-          {loading ? 'Loading...' : 'Update MLA'}
+          {loading ? 'Loading...' : 'Update Leader'}
         </Button>
       </form>
       {updateUserSuccess && (

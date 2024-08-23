@@ -87,6 +87,15 @@ export default function DashSidebar() {
                   Add MLA's
                 </Sidebar.Item>
               </Link>
+              <Link to='/dashboard?tab=lead'>
+                <Sidebar.Item
+                  active={tab === 'lead'}
+                  icon={HiOutlineUserGroup}
+                  as='div'
+                >
+                  Add Leader's
+                </Sidebar.Item>
+              </Link>
               <Link to='/dashboard?tab=mlas'>
                 <Sidebar.Item
                   active={tab === 'mlas'}
@@ -94,6 +103,15 @@ export default function DashSidebar() {
                   as='div'
                 >
                    MLA's
+                </Sidebar.Item>
+              </Link>
+              <Link to='/dashboard?tab=leaders'>
+                <Sidebar.Item
+                  active={tab === 'leaders'}
+                  icon={HiOutlineUserGroup}
+                  as='div'
+                >
+                   Leader's
                 </Sidebar.Item>
               </Link>
             </>

@@ -9,7 +9,7 @@ export const getDistrict = async (req, res, next) => {
   }
 }; 
 
-export const getMandal = async (req, res, next) => {
+export const getConstin = async (req, res, next) => {
   const { districtName } = req.query;
 
   const district = data.find((d) => d.districtName === districtName);

@@ -1,4 +1,6 @@
-import React from "react";
+import React from 'react'
+
+
 
 import {
   Alert,
@@ -23,7 +25,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-const DashAddMla = () => {
+const DashAddLeaders = () => {
   const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
@@ -44,7 +46,7 @@ const DashAddMla = () => {
   
   useEffect(() => {
     // Fetch all districts when the component mounts
-    fetch("/api/districts")
+    fetch("/api/leader/dist")
       .then((response) => response.json())
       .then((data) => setDistricts(data))
       .catch((error) => console.error("Error fetching districts:", error));
@@ -59,7 +61,7 @@ const DashAddMla = () => {
     setSelectedDistrict(districtName);
 
     // Fetch mandals for the selected district
-    fetch(`/api/mandals?districtName=${districtName}`)
+    fetch(`/api/leader/mand?district=${districtName}`)
       .then((response) => response.json())
       .then((data) => setMandals(data.mandals))
       .catch((error) => console.error("Error fetching mandals:", error));
@@ -137,8 +139,10 @@ const DashAddMla = () => {
       setUpdateUserError("Please wait for image to upload");
       return;
     }
+    console.log(formData);
+    
     try {
-      const res = await fetch(`/api/mla/create`, {
+      const res = await fetch(`/api/leader/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -149,7 +153,7 @@ const DashAddMla = () => {
       if (!res.ok) {
         setUpdateUserError(data.message);
       } else {
-        setUpdateUserSuccess("MLA Added");
+        setUpdateUserSuccess("LEADER'S Added");
       }
     } catch (error) {
       setUpdateUserError(error.message);
@@ -158,7 +162,7 @@ const DashAddMla = () => {
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
-      <h1 className="my-7 text-center font-semibold text-3xl">Add Mla's</h1>
+      <h1 className="my-7 text-center font-semibold text-3xl">Add Leader's</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="file"
@@ -194,7 +198,8 @@ const DashAddMla = () => {
           )}
           <img
             src={imageFileUrl}
-            alt="Add mla photo"
+            
+            alt="Add Leader's photo"
             className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
               imageFileUploadProgress &&
               imageFileUploadProgress < 100 &&
@@ -262,15 +267,21 @@ const DashAddMla = () => {
           value={selectedMandal}
           onChange={handleMandalChange}
           disabled={ mandals.length==0 }
-          id="constituencies"
+          id="mandal"
         >
-          <option value="">Select a constituencies</option>
+          <option value="">Select a mandal</option>
           {mandals.map((mandal) => (
             <option key={mandal} value={mandal}>
               {mandal}
             </option>
           ))}
         </Select>
+        <TextInput
+          type="text"
+          id="village"
+          placeholder="Enter village"
+          onChange={handleChange}
+        />
         <TextInput
           type="number"
           id="phoneNumber"
@@ -289,7 +300,25 @@ const DashAddMla = () => {
           placeholder="Enter Qualification"
           onChange={handleChange}
         />
-
+         <TextInput
+          type="text"
+          id="caste"
+          placeholder="Enter Caste"
+          onChange={handleChange}
+        />
+        
+        <TextInput
+          type="text"
+          id="designation"
+          placeholder="Enter designation"
+          onChange={handleChange}
+        />
+         <TextInput
+          type="text"
+          id="partyMembershipId"
+          placeholder="Enter partyMembershipId"
+          onChange={handleChange}
+        />
         <Button
           type="submit"
           gradientDuoTone="purpleToBlue"
@@ -313,4 +342,5 @@ const DashAddMla = () => {
   );
 };
 
-export default DashAddMla;
+export default DashAddLeaders;
+

@@ -16,13 +16,14 @@ export const createMla = async (req, res, next) => {
     !req.body.address ||
     !req.body.Qualification||
     !req.body.age
+    
   ) {
     return next(errorHandler(400, "Please provide all required fields"));
   }
   if(!validatePhoneNumber(req.body.phoneNumber)){
     return next(errorHandler(400, "Phone Number is Invalid"));
   }
-  if(req.body.phoneNumber==10){
+  if(req.body.phoneNumber.length!==10){
     return next(errorHandler(400, "Phone Number Should Be 10 digit"));
   }
   const newMla = Mla({
@@ -49,6 +50,7 @@ export const getmlas = async (req, res, next)=>{
   const mla = await Mla.find({
     ...(req.query.district && { district: req.query.district }),
     ...(req.query.constituencies && { constituencies: req.query.constituencies }),
+    ...(req.query.mlaId && { _id: req.query.mlaId }),
     
   })
   .sort({ updatedAt: sortDirection })
@@ -96,7 +98,8 @@ export const updateMla = async(req,res,next)=>{
         address:req.body.address,
         Qualification:req.body.Qualification,
         services:req.body.services,
-        profilePicture:req.body.profilePicture
+        profilePicture:req.body.profilePicture,
+        services:req.body.services,
       },
       
     }, { new: true });

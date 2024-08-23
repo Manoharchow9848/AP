@@ -11,6 +11,8 @@ import DashBoard from './pages/DashBoard'
 import LocateMla from './pages/LocateMla'
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute'
 import UpdateMla from './pages/UpdateMla'
+import UpdateLead from './pages/UpdateLead'
+import Leader from './pages/Leader'
 function App() {
   
 
@@ -28,12 +30,13 @@ function App() {
         <Route element={<OnlyAdminPrivateRoute />}>
          
           <Route path='/update-mla/:mlaId' element={<UpdateMla />} />
-          
+          <Route path='/update-lead/:leadId' element={<UpdateLead />} />
         </Route>
 
         <Route element={<PrivateRoute />}>
         <Route path='/dashboard' element={<DashBoard />} />   
         <Route path='/locator' element={<LocateMla />} />  
+        <Route path='/find' element={<Leader />} /> 
           </Route>
       </Routes>
       <Footer />
