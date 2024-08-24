@@ -7,8 +7,9 @@ import userRoutes from './routes/user.route.js';
 import districtRoutes from './routes/district.route.js'
 import mlaRoutes from './routes/mla.route.js'
 import mandalRoutes from './routes/mandal.route.js'
+import path from 'path';
 dotenv.config();
-
+const __dirname = path.resolve();
 const app = express();
 app.use(cookieParser());
 app.use(express.json());
@@ -18,6 +19,12 @@ app.use('/api/user',userRoutes);
 app.use('/api',districtRoutes);
 app.use('/api/mla',mlaRoutes);
 app.use('/api/leader',mandalRoutes);
+
+app.use(express.static(path.join(__dirname, '/frontend/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+});
 const port = 3000;
 
 connectdb().then(()=>{
