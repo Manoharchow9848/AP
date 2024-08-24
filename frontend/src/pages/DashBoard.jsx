@@ -9,6 +9,8 @@ import DashboardComp from '../components/DashboardComp';
 import DashLeaders from '../components/DashLeaders';
 import { useSelector } from 'react-redux';
 import DashAddLeaders from '../components/DashAddLeaders';
+import DashTickets from '../components/DashTickets';
+import DashTic from '../components/DashTic';
 export default function DashBoard() {
   const { currentUser } = useSelector((state) => state.user);
     const location = useLocation();
@@ -38,6 +40,8 @@ export default function DashBoard() {
     {tab === 'dash' && <DashboardComp />}
     {tab === 'leaders' && <DashLeaders />}
     {tab === 'lead' && <DashAddLeaders />}
+    {tab === 'tickets' && <DashTickets />}
+    {tab === 'tic' && <DashTic />}
   </div>
   )
 }

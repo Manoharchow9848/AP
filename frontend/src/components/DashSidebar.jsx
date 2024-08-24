@@ -44,6 +44,7 @@ export default function DashSidebar() {
     <Sidebar className='w-full md:w-56'>
       <Sidebar.Items>
         <Sidebar.ItemGroup className='flex flex-col gap-1'>
+        
           {currentUser && currentUser.isAdmin && (
             <Link to='/dashboard?tab=dash'>
               <Sidebar.Item
@@ -66,7 +67,17 @@ export default function DashSidebar() {
               Profile
             </Sidebar.Item>
           </Link>
-         
+          {currentUser && !currentUser.isAdmin && (
+            <Link to='/dashboard?tab=tic'>
+              <Sidebar.Item
+                active={tab === 'tic' || !tab}
+                icon={HiOutlineUserGroup}
+                as='div'
+              >
+                Your Tickets
+              </Sidebar.Item>
+            </Link>
+          )}
           {currentUser.isAdmin && (
             <>
               <Link to='/dashboard?tab=users'>
@@ -112,6 +123,15 @@ export default function DashSidebar() {
                   as='div'
                 >
                    Leader's
+                </Sidebar.Item>
+              </Link>
+              <Link to='/dashboard?tab=tickets'>
+                <Sidebar.Item
+                  active={tab === 'tickets'}
+                  icon={HiOutlineUserGroup}
+                  as='div'
+                >
+                   Ticket's
                 </Sidebar.Item>
               </Link>
             </>

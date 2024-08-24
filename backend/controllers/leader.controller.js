@@ -1,6 +1,7 @@
 import { data } from "../utils/mandal.js";
 import { errorHandler } from '../utils/error.js';
 import Leader from "../model/leader.model.js";
+import Ticket from "../model/ticket.model.js";
 export const getDistrict = async (req, res, next) => {
     try {
       const districts = data.map((item) => item.district);
@@ -130,6 +131,106 @@ export const updateLeader = async(req,res,next)=>{
       
     }, { new: true });
     res.status(200).json(updatedLeader);
+  } catch (error) {
+    next(error);
+  }
+  
+}
+export const creteTicket = async(req,res,next)=>{
+  if ( req.user.id !== req.query.userId) {
+    return next(errorHandler(403, 'You are not allowed to create this ticket'));
+  }
+  try {
+    const {
+      name,
+      district,
+      mandal,
+      village,
+      phoneNumber,
+      referredBy,
+      referredName,
+      problemDescription,
+      problemDurationDays,
+      problemType,email
+    } = req.body;
+
+    // Validate required fields
+    if (
+      !name ||
+      !district ||
+      !mandal ||
+      !village ||
+      !phoneNumber ||
+      !referredBy ||
+      !referredName ||
+      !problemDescription ||
+      !problemDurationDays ||
+      !problemType ||
+      !email
+
+    ) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    // Create a new problem ticket
+    const newProblem = new Ticket({
+      name,
+      district,
+      mandal,
+      village,
+      phoneNumber,
+      referredBy,
+      referredName,
+      problemDescription,
+      problemDurationDays,
+      problemType,
+      email,userId:req.query.userId
+    });
+
+    // Save the problem ticket to the database
+    await newProblem.save();
+
+    return res.status(201).json({ message: 'Problem ticket created successfully', problem: newProblem });
+  } catch (error) {
+    console.error('Error creating problem ticket:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+  
+  
+}
+export const getTickets = async(req,res,next)=>{
+  try {
+    
+  const sortDirection = req.query.order === 'asc' ? 1 : -1;
+  const tickets = await Ticket.find({
+    ...(req.query.userId && {userId: req.query.userId }),
+   
+  })
+  .sort({ updatedAt: sortDirection })
+     
+
+      
+
+     
+   
+    res.status(200).json(tickets);
+  } catch (error) {
+    next(error);
+  }
+}
+export const updateStatus = async(req,res,next)=>{
+  if (!req.user.isAdmin ) {
+    return next(errorHandler(403, 'You are not allowed to update this status'));
+  }
+  try {
+    const updatedTicket = await Ticket.findByIdAndUpdate(req.query.ticketId,{
+      $set:{
+        status:req.body.status,
+        
+      },
+      
+    }, { new: true });
+    res.status(200).json(updatedTicket);
   } catch (error) {
     next(error);
   }

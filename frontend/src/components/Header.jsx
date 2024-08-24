@@ -114,6 +114,10 @@ export default function Header() {
           <Link to='/find'>Find Your Leader</Link>
         
         </Navbar.Link>}
+        {currentUser  && <Navbar.Link active={path === '/find'} as={'div'}>
+          <Link to='/ticket'>Raise Ticket</Link>
+        
+        </Navbar.Link>}
       </Navbar.Collapse>
     </Navbar>
   );

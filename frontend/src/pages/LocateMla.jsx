@@ -150,7 +150,7 @@ const LocateMla = () => {
                         <img
                           src={service.image}
                           alt={`Service ${index}`}
-                          className="w-full h-full object-cover"
+                          className="w-full h-96 object-cover"
                         />
                         <p className="absolute bottom-0 bg-opacity-60 bg-black text-white p-2 w-full text-center">
                           {service.description}
