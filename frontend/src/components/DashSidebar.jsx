@@ -1,5 +1,6 @@
 
 import { Sidebar } from 'flowbite-react';
+import { IoTicketOutline } from "react-icons/io5";
 import {
   HiUser,
   HiArrowSmRight,
@@ -128,7 +129,7 @@ export default function DashSidebar() {
               <Link to='/dashboard?tab=tickets'>
                 <Sidebar.Item
                   active={tab === 'tickets'}
-                  icon={HiOutlineUserGroup}
+                  icon={IoTicketOutline}
                   as='div'
                 >
                    Ticket's
