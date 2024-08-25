@@ -18,38 +18,13 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Middleware to auto-logout after 10 minutes of inactivity
-const inactivityMiddleware = (store) => {
-  let timeoutId;
 
-  const resetTimeout = () => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-
-    // Set the timeout to 10 minutes (600000 ms)
-    timeoutId = setTimeout(() => {
-      store.dispatch(signoutSuccess());
-    }, 3600000);
-  };
-
-  return (next) => (action) => {
-    // Reset the timeout for every user-related action
-    const result = next(action);
-    const { currentUser } = store.getState().user;
-
-    if (currentUser) {
-      resetTimeout();
-    }
-
-    return result;
-  };
-};
 
 // Configure the store
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }).concat(inactivityMiddleware),
+    getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export const persistor = persistStore(store);
