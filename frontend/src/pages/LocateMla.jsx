@@ -107,7 +107,7 @@ const LocateMla = () => {
       </div>
       <div className="w-full">
         <h1 className="text-3xl font-semibold sm:border-b border-gray-500 p-3 mt-5">
-          MLA results:
+          MLA
         </h1>
         <div className="p-7 flex flex-wrap gap-4">
           {mla && mla._id ? (
