@@ -379,7 +379,7 @@ console.log(formData);
           accept="image/*"
           onChange={handlePartyMembershipIdPicChange}
           ref={partyMembershipIdPicPickerRef}
-          
+          hidden={ formData.partyMembershipIdpicture}
         />
         {formData.partyMembershipIdpicture  && (
           <div  onClick={() => partyMembershipIdPicPickerRef.current.click()}>
