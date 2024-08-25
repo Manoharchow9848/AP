@@ -140,7 +140,7 @@ console.log(sidebarData);
           {leader && leader._id ? (
             <div className="container mx-auto p-8">
               <div className="bg-white dark:bg-black shadow-lg rounded-lg overflow-hidden">
-                <div className="bg-gradient-to-r from-blue-500 to-indigo-600 h-32"></div>
+                <div className="bg-yellow-200 h-32"></div>
                 <div className="flex justify-center -mt-16">
                   <img
                     src={leader.profilePicture}
