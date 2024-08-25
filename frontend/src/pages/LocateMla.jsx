@@ -113,7 +113,7 @@ const LocateMla = () => {
           {mla && mla._id ? (
             <div className="container mx-auto p-8">
               <div className="bg-white dark:bg-black shadow-lg rounded-lg overflow-hidden">
-                <div className="bg-gradient-to-r from-blue-500 to-indigo-600 h-32"></div>
+                <div className="bg-yellow-200 h-32"></div>
                 <div className="flex justify-center -mt-16">
                   <img
                     src={mla.profilePicture}
@@ -150,7 +150,7 @@ const LocateMla = () => {
                         <img
                           src={service.image}
                           alt={`Service ${index}`}
-                          className="w-full h-96 object-cover"
+                          className="w-full h-full object-cover"
                         />
                         <p className="absolute bottom-0 bg-opacity-60 bg-black text-white p-2 w-full text-center">
                           {service.description}

@@ -98,7 +98,8 @@ export const data =[
             "I. Polavaram mandal",
             "Kapileswarapuram mandal",
             "Katrenikona mandal",
-            "Kothapeta mandal"
+            "Kothapeta mandal",
+            "Ramachandrapuram Mandal",
         ]
     },
     {
