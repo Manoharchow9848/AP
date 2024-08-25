@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   signInStart,
   signInSuccess,
-  signInFailure,
+  signInFailure,clearError
 } from '../redux/user/userSlice';
 import OAuth from '../components/OAuth';
 
@@ -17,6 +17,16 @@ export default function SignIn() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
+  useEffect(() => {
+    // Clear error message after component mounts
+    if (errorMessage) {
+      const timer = setTimeout(() => {
+        dispatch(clearError());
+      }, 3000); // Clears error message after 5 seconds
+
+      return () => clearTimeout(timer); // Clean up timer on component unmount
+    }
+  }, [errorMessage, dispatch]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
