@@ -140,7 +140,7 @@ console.log(sidebarData);
           {leader && leader._id ? (
             <div className="container mx-auto p-8">
               <div className="bg-white dark:bg-black shadow-lg rounded-lg overflow-hidden">
-                <div className="bg-yellow-200 h-32"></div>
+                <div className="bg-yellow-500 h-32"></div>
                 <div className="flex justify-center -mt-16">
                   <img
                     src={leader.profilePicture}
@@ -149,7 +149,7 @@ console.log(sidebarData);
                   />
                 </div>
                 <div className="text-center px-6 py-4">
-                  <h2 className="text-3xl font-bold text-gray-800">{leader.name}</h2>
+                  <h2 className="text-3xl font-semibold text-gray-800">{leader.name}</h2>
                   <p className="text-gray-600 font-semibold mt-2">Party: {leader.partyName}</p>
                   <p className="text-gray-600 font-semibold mt-2">partyMembershipId: {leader.partyMembershipId}</p>
                 </div>

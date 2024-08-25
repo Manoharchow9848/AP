@@ -88,7 +88,7 @@ export const updateMla = async(req,res,next)=>{
     const updatedMla = await Mla.findByIdAndUpdate(req.query.mlaId,{
       $set:{
         name:req.body.name,
-        fatherName:req.body.name,
+        fatherName:req.body.fatherName,
         email:req.body.email,
         partyName:req.body.partyName,
         age:req.body.age,

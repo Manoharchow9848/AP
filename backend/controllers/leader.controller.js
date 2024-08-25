@@ -111,7 +111,7 @@ export const updateLeader = async(req,res,next)=>{
     const updatedLeader = await Leader.findByIdAndUpdate(req.query.leadId,{
       $set:{
         name:req.body.name,
-        fatherName:req.body.name,
+        fatherName:req.body.fatherName,
         email:req.body.email,
         partyName:req.body.partyName,
         age:req.body.age,
