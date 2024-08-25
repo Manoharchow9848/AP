@@ -102,6 +102,7 @@ export const updateMla = async(req,res,next)=>{
         services:req.body.services,
       },
       
+      
     }, { new: true });
     res.status(200).json(updatedMla);
   } catch (error) {
