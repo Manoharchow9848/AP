@@ -1,10 +1,4 @@
-
-
 export default function About() {
-
-
-
-
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="max-w-2xl mx-auto p-3 text-center">
@@ -12,18 +6,21 @@ export default function About() {
           <h1 className="text-3xl font font-semibold text-center my-7">
             MLA Locator: District & Mandal Search for Andhra Pradesh
           </h1>
-          <div className="text-md text-gray-500 flex flex-col gap-6">
+          <div className="text-l font-semibold text-gray-400 flex flex-col gap-6">
             <p>
-              Welcome to the MLA Locator, your go-to tool for quickly and easily
-              finding your elected representative in Andhra Pradesh. Whether
-              you're looking to connect with your MLA for assistance,
-              information, or support, our platform allows you to search based
-              on your specific district and mandal. This ensures that you get
-              accurate, up-to-date information tailored to your location. With
-              an intuitive interface and comprehensive database, finding your
-              MLA has never been easier. Empower yourself with the knowledge of
-              your local leadership and stay connected with the representatives
-              who serve your community.
+              Welcome to Leader with a Cader, your dedicated platform for
+              connecting with local political representatives. Our mission is to
+              provide comprehensive information about your Member of Legislative
+              Assembly (MLA), including details about their district and
+              constituency. We also offer tools to help you identify local
+              leaders by mandal and village. Our platform facilitates direct
+              communication with your MLA, allowing you to raise tickets and
+              address your concerns effectively. Additionally, we showcase the
+              social services and initiatives undertaken by your MLA. With
+              user-friendly features and up-to-date information, Leader with a
+              Cader aims to empower citizens and enhance local governance.
+              Explore our website to stay informed, engaged, and connected with
+              your representatives.
             </p>
 
             <p>
