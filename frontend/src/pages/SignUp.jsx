@@ -2,7 +2,7 @@ import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import OAuth from '../components/OAuth';
-
+import logo from '../assets/logo.png';
 const SignUp = () => {
   const [formData, setFormData] = useState({});
   
@@ -43,10 +43,10 @@ const SignUp = () => {
         {/* left */}
         <div className='flex-1'>
           <Link to='/' className='font-bold dark:text-white text-4xl'>
-            <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>
-            Leader with a cader
-            </span>
-            
+          <img src={logo} alt='logo' className='h-16 mr-2' />
+        <span className='dark:text-white mt-4 text-xl font-bold text-gray-800'>
+          Leader With a Cader
+        </span>
           </Link>
           <p className='text-sm mt-5'>
             This is a AP politics Info project. You can sign up with your email and password

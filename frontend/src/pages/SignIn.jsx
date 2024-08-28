@@ -8,7 +8,7 @@ import {
   signInFailure,clearError
 } from '../redux/user/userSlice';
 import OAuth from '../components/OAuth';
-
+import logo from '../assets/logo.png';
 export default function SignIn() {
   const [formData, setFormData] = useState({});
   const { loading, error: errorMessage } = useSelector((state) => state.user);
@@ -58,10 +58,10 @@ export default function SignIn() {
         {/* left */}
         <div className='flex-1'>
           <Link to='/' className='font-bold dark:text-white text-4xl'>
-            <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>
-            Leader with a cader
-            </span>
-            
+          <img src={logo} alt='logo' className='h-16 mr-2' />
+        <span className='dark:text-white mt-4 text-xl font-bold text-gray-800'>
+          Leader With a Cader
+        </span>
           </Link>
           <p className='text-sm mt-5'>
             This is a demo project. You can sign in with your email and password
