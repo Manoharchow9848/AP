@@ -1,11 +1,18 @@
-import { Avatar, Button, Dropdown ,Navbar, TextInput } from 'flowbite-react';
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  Navbar,
+  TextInput
+} from 'flowbite-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { AiOutlineSearch } from 'react-icons/ai';
+
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme } from '../redux/theme/themeSlice';
 import { signoutSuccess } from '../redux/user/userSlice';
 import { useEffect, useState } from 'react';
+import logo from '../assets/logo.png';
 
 export default function Header() {
   const path = useLocation().pathname;
@@ -14,7 +21,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
-  const [searchTerm, setSearchTerm] = useState('');
+
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -52,15 +59,14 @@ export default function Header() {
     <Navbar className='border-b-2'>
       <Link
         to='/'
-        className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'
+        className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white flex items-center'
       >
-        <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>
-        Leader with a cader
+        <img src={logo} alt='logo' className='h-16 mr-2' />
+        <span className='dark:text-white mt-4 text-xl font-bold text-gray-800'>
+          Leader With a Cader
         </span>
-        
       </Link>
-     
-      
+
       <div className='flex gap-2 md:order-2'>
         <Button
           className='w-12 h-10 hidden sm:inline'
@@ -79,7 +85,9 @@ export default function Header() {
             }
           >
             <Dropdown.Header>
-              <span className='block text-sm'>@{currentUser.username}</span>
+              <span className='block text-sm'>
+                @{currentUser.username}
+              </span>
               <span className='block text-sm font-medium truncate'>
                 {currentUser.email}
               </span>
@@ -88,7 +96,9 @@ export default function Header() {
               <Dropdown.Item>Profile</Dropdown.Item>
             </Link>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
+            <Dropdown.Item onClick={handleSignout}>
+              Sign out
+            </Dropdown.Item>
           </Dropdown>
         ) : (
           <Link to='/sign-in'>
@@ -106,18 +116,21 @@ export default function Header() {
         <Navbar.Link active={path === '/about'} as={'div'}>
           <Link to='/about'>About</Link>
         </Navbar.Link>
-        {currentUser  && <Navbar.Link active={path === '/locator'} as={'div'}>
-          <Link to='/locator'>Find Your MLA</Link>
-        
-        </Navbar.Link>}
-        {currentUser  && <Navbar.Link active={path === '/find'} as={'div'}>
-          <Link to='/find'>Find Your Leader</Link>
-        
-        </Navbar.Link>}
-        {currentUser  && <Navbar.Link active={path === '/ticket'} as={'div'}>
-          <Link to='/ticket'>Raise Ticket</Link>
-        
-        </Navbar.Link>}
+        {currentUser && (
+          <Navbar.Link active={path === '/locator'} as={'div'}>
+            <Link to='/locator'>Find Your MLA</Link>
+          </Navbar.Link>
+        )}
+        {currentUser && (
+          <Navbar.Link active={path === '/find'} as={'div'}>
+            <Link to='/find'>Find Your Leader</Link>
+          </Navbar.Link>
+        )}
+        {currentUser && (
+          <Navbar.Link active={path === '/ticket'} as={'div'}>
+            <Link to='/ticket'>Raise Ticket</Link>
+          </Navbar.Link>
+        )}
       </Navbar.Collapse>
     </Navbar>
   );
