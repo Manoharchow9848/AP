@@ -96,6 +96,7 @@ const handleUpdateStatus = async(ticketId)=>{
         <Table.HeadCell> district</Table.HeadCell>
         <Table.HeadCell> mandal</Table.HeadCell>
         <Table.HeadCell> phoneNumber</Table.HeadCell>
+        <Table.HeadCell> department</Table.HeadCell>
         <Table.HeadCell> referredBy</Table.HeadCell>
         <Table.HeadCell>referredName</Table.HeadCell>
         <Table.HeadCell> problemDescription</Table.HeadCell>
@@ -103,7 +104,7 @@ const handleUpdateStatus = async(ticketId)=>{
         <Table.HeadCell> problemDurationDays</Table.HeadCell>
         <Table.HeadCell> problemType</Table.HeadCell>
         
-        <Table.HeadCell><span>Status</span></Table.HeadCell>
+       
       </Table.Head>
       {mla.map((ml)=>(
         <Table.Body className="divide-y">
@@ -118,7 +119,7 @@ const handleUpdateStatus = async(ticketId)=>{
             <Table.Cell>{ml.district}</Table.Cell>
             <Table.Cell>{ml.mandal}</Table.Cell>
             <Table.Cell>{ml.phoneNumber}</Table.Cell>
-            <Table.Cell>{ml.referredBy}</Table.Cell>
+            <Table.Cell>{ml.department}</Table.Cell>
             <Table.Cell>{ml.referredName}</Table.Cell>
             <Table.Cell>{ml.problemDescription}</Table.Cell>
             <Table.Cell>{ml.village}</Table.Cell>

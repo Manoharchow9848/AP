@@ -2,6 +2,7 @@ import { data } from "../utils/mandal.js";
 import { errorHandler } from '../utils/error.js';
 import Leader from "../model/leader.model.js";
 import Ticket from "../model/ticket.model.js";
+
 export const getDistrict = async (req, res, next) => {
     try {
       const districts = data.map((item) => item.district);
@@ -151,7 +152,7 @@ export const creteTicket = async(req,res,next)=>{
       referredName,
       problemDescription,
       problemDurationDays,
-      problemType,email
+      problemType,email,department
     } = req.body;
 
     // Validate required fields
@@ -166,8 +167,8 @@ export const creteTicket = async(req,res,next)=>{
       !problemDescription ||
       !problemDurationDays ||
       !problemType ||
-      !email
-
+      !email ||
+       !department
     ) {
       return res.status(400).json({ message: 'All fields are required' });
     }
@@ -184,7 +185,10 @@ export const creteTicket = async(req,res,next)=>{
       problemDescription,
       problemDurationDays,
       problemType,
-      email,userId:req.query.userId
+      email,
+      userId:req.query.userId,
+      department
+
     });
 
     // Save the problem ticket to the database
