@@ -70,13 +70,13 @@ const LocateMla = () => {
       <div className="p-7 border-b md:border-r md:min-h-screen border-gray-500">
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className="flex items-center gap-2">
-            <label className="font-semibold">District:</label>
+            <label className="font-semibold">Parliament:</label>
             <Select
               value={selectedDistrict}
               onChange={handleDistrictChange}
               id="district"
             >
-              <option value="">Select a district</option>
+              <option value="">Select a Parliament</option>
               {districts.map((district) => (
                 <option key={district} value={district}>
                   {district}
@@ -85,14 +85,15 @@ const LocateMla = () => {
             </Select>
           </div>
           <div className="flex items-center gap-2">
-            <label className="font-semibold">Constituencies:</label>
+            <label className="font-semibold">ASSEMBLY:</label>
             <Select
               value={selectedMandal}
               onChange={handleMandalChange}
               disabled={mandals.length === 0}
               id="constituencies"
             >
-              <option value="">Select a constituencies</option>
+              <option value="">Select a ASSEMBLY
+              </option>
               {mandals.map((mandal) => (
                 <option key={mandal} value={mandal}>
                   {mandal}
@@ -107,7 +108,7 @@ const LocateMla = () => {
       </div>
       <div className="w-full">
         <h1 className="text-3xl font-semibold sm:border-b border-gray-500 p-3 mt-5">
-          MLA
+          MLA results:
         </h1>
         <div className="p-7 flex flex-wrap gap-4">
           {mla && mla._id ? (
@@ -122,7 +123,7 @@ const LocateMla = () => {
                   />
                 </div>
                 <div className="text-center px-6 py-4">
-                  <h2 className="text-3xl font-semibold text-gray-800">{mla.name}</h2>
+                  <h2 className="text-3xl font-semibold dark:text-white text-gray-800">{mla.name}</h2>
                   <p className="text-gray-600 font-semibold mt-2">Party: {mla.partyName}</p>
                 </div>
                 <div className="px-6 py-4 border-t border-gray-200">

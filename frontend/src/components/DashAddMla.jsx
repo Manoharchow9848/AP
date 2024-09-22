@@ -251,7 +251,7 @@ const DashAddMla = () => {
           onChange={handleDistrictChange}
           id="district"
         >
-          <option value="">Select a district</option>
+          <option value="">Select a Parliament</option>
           {districts.map((district) => (
             <option key={district} value={district}>
               {district}
@@ -264,7 +264,7 @@ const DashAddMla = () => {
           disabled={ mandals.length==0 }
           id="constituencies"
         >
-          <option value="">Select a constituencies</option>
+          <option value="">Select a ASSEMBLY</option>
           {mandals.map((mandal) => (
             <option key={mandal} value={mandal}>
               {mandal}

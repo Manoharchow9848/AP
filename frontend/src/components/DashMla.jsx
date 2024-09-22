@@ -70,8 +70,8 @@ const handleDeleteMla = async()=>{
         <Table.HeadCell>mla Image</Table.HeadCell>
         <Table.HeadCell>mla name</Table.HeadCell>
         <Table.HeadCell>mla email</Table.HeadCell>
-        <Table.HeadCell>mla district</Table.HeadCell>
-        <Table.HeadCell>mla constituencies</Table.HeadCell>
+        <Table.HeadCell>mla Parliament</Table.HeadCell>
+        <Table.HeadCell>mla ASSEMBLY</Table.HeadCell>
         <Table.HeadCell>mla phoneNumber</Table.HeadCell>
         <Table.HeadCell>mla address</Table.HeadCell>
         <Table.HeadCell>mla partyName</Table.HeadCell>

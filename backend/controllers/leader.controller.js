@@ -152,7 +152,7 @@ export const creteTicket = async(req,res,next)=>{
       referredName,
       problemDescription,
       problemDurationDays,
-      problemType,email,department
+      problemType,email,department,documentUrl
     } = req.body;
 
     // Validate required fields
@@ -187,7 +187,8 @@ export const creteTicket = async(req,res,next)=>{
       problemType,
       email,
       userId:req.query.userId,
-      department
+      department,
+      documentUrl
 
     });
 
