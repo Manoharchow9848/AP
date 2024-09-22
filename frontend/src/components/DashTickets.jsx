@@ -103,6 +103,8 @@ const handleUpdateStatus = async(ticketId)=>{
         <Table.HeadCell> village</Table.HeadCell>
         <Table.HeadCell> problemDurationDays</Table.HeadCell>
         <Table.HeadCell> problemType</Table.HeadCell>
+        <Table.HeadCell> Attached Files</Table.HeadCell>
+        <Table.HeadCell> status</Table.HeadCell>
         
        
       </Table.Head>
@@ -120,11 +122,24 @@ const handleUpdateStatus = async(ticketId)=>{
             <Table.Cell>{ml.mandal}</Table.Cell>
             <Table.Cell>{ml.phoneNumber}</Table.Cell>
             <Table.Cell>{ml.department}</Table.Cell>
+            <Table.Cell>{ml.referredBy}</Table.Cell>
             <Table.Cell>{ml.referredName}</Table.Cell>
             <Table.Cell>{ml.problemDescription}</Table.Cell>
             <Table.Cell>{ml.village}</Table.Cell>
             <Table.Cell>{ml.problemDurationDays}</Table.Cell>
             <Table.Cell>{ml.problemType}</Table.Cell>
+
+            <Table.Cell>
+              
+              
+              {ml.documentUrl===null?
+                <h1>No files</h1>:
+                <Link to={`${ml.documentUrl}`}>click here to view</Link>}
+              
+              
+              </Table.Cell>
+
+
             {
                 ml.status=="pending"?<Table.Cell className='text-red-800 font-bold text-xl'>  <Button onClick={() => handleUpdateStatus(ml._id)}>
                 {ml.status}
