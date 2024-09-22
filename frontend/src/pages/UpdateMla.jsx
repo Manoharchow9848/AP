@@ -300,7 +300,7 @@ export default function UpdateMla() {
           onChange={handleDistrictChange}
           id="district"
         >
-          <option value="">Select a District</option>
+          <option value="">Select a Parliament</option>
           {districts.map((district) => (
             <option key={district} value={district}>
               {district}
@@ -313,7 +313,7 @@ export default function UpdateMla() {
           disabled={mandals.length === 0}
           id="constituencies"
         >
-          <option value="">Select a Constituency</option>
+          <option value="">Select a ASSEMBLY</option>
           {mandals.map((mandal) => (
             <option key={mandal} value={mandal}>
               {mandal}
