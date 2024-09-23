@@ -18,7 +18,7 @@ const ticket = new mongoose.Schema({
     required: true,
   },
   department: {
-    type: String,
+    type: [String], // Change to array of strings to store multiple departments
     required: true,
   },
   documentUrl: {
