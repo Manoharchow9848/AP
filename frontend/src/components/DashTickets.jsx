@@ -134,7 +134,7 @@ const handleUpdateStatus = async(ticketId)=>{
               
               {ml.documentUrl===null?
                 <h1>No files</h1>:
-                <Link to={`${ml.documentUrl}`}>click here to view</Link>}
+                <Link className='hover:underline text-green-500' to={`${ml.documentUrl}`}>click here to view</Link>}
               
               
               </Table.Cell>
