@@ -121,7 +121,7 @@ const handleUpdateStatus = async(ticketId)=>{
             <Table.Cell>{ml.district}</Table.Cell>
             <Table.Cell>{ml.mandal}</Table.Cell>
             <Table.Cell>{ml.phoneNumber}</Table.Cell>
-            <Table.Cell>{ml.department}</Table.Cell>
+            <Table.Cell>{ml.department.join(", ")}</Table.Cell>
             <Table.Cell>{ml.referredBy}</Table.Cell>
             <Table.Cell>{ml.referredName}</Table.Cell>
             <Table.Cell>{ml.problemDescription}</Table.Cell>
