@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { signoutSuccess } from '../redux/user/userSlice';
 
 
 import {
@@ -41,14 +41,18 @@ const DashAddLeaders = () => {
   const [selectedMandal, setSelectedMandal] = useState("");
   const [mandals, setMandals] = useState([]);
   const [partyName,setPartyName]=useState("");
-  console.log(formData);
-  console.log(formData);
+  const dispatch = useDispatch();
+
   
   useEffect(() => {
     // Fetch all districts when the component mounts
     fetch("/api/leader/dist")
       .then((response) => response.json())
-      .then((data) => setDistricts(data))
+      .then((data) => {
+        if(data.success===false)
+          handleSignout();
+        else
+        setDistricts(data)})
       .catch((error) => console.error("Error fetching districts:", error));
   }, []);
 
@@ -67,7 +71,20 @@ const DashAddLeaders = () => {
       .catch((error) => console.error("Error fetching mandals:", error));
     }
   };
-
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);        }
+  };
   const handleMandalChange = (e) => {
     setSelectedMandal(e.target.value)
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -215,18 +232,24 @@ const DashAddLeaders = () => {
           id="name"
           placeholder="name"
           onChange={handleChange}
+           autoComplete="off"
+            autoCorrect="off"
+            spellCheck="false"
+
         />
         <TextInput
           type="text"
           id="fatherName"
           placeholder="Enter Father Name"
           onChange={handleChange}
+           autoComplete="off"
         />
         <TextInput
           type="email"
           id="email" 
           placeholder="Enter Email"
           onChange={handleChange}
+           autoComplete="off"
         />
         <Select
           value={partyName}
@@ -250,6 +273,7 @@ const DashAddLeaders = () => {
           id="age"
           placeholder="Enter Age"
           onChange={handleChange}
+           autoComplete="off"
         />
         <Select
           value={selectedDistrict}
@@ -281,30 +305,35 @@ const DashAddLeaders = () => {
           id="village"
           placeholder="Enter village"
           onChange={handleChange}
+           autoComplete="off"
         />
         <TextInput
           type="number"
           id="phoneNumber"
           placeholder="Enter PhoneNumber"
           onChange={handleChange}
+           autoComplete="off"
         />
         <TextInput
           type="text"
           id="address"
           placeholder="Enter Address"
           onChange={handleChange}
+           autoComplete="off"
         />
          <TextInput
           type="text"
           id="Qualification"
           placeholder="Enter Qualification"
           onChange={handleChange}
+           autoComplete="off"
         />
          <TextInput
           type="text"
           id="caste"
           placeholder="Enter Caste"
           onChange={handleChange}
+           autoComplete="off"
         />
         
         <TextInput
@@ -312,12 +341,14 @@ const DashAddLeaders = () => {
           id="designation"
           placeholder="Enter designation"
           onChange={handleChange}
+           autoComplete="off"
         />
          <TextInput
           type="text"
           id="partyMembershipId"
           placeholder="Enter partyMembershipId"
           onChange={handleChange}
+           autoComplete="off"
         />
         <Button
           type="submit"

@@ -10,12 +10,15 @@ import {
 } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { signoutSuccess } from '../redux/user/userSlice';
+
 import {
   getDownloadURL,
   getStorage,
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+
 import { app } from "../firebase";
 
 import { useDispatch } from "react-redux";
@@ -32,21 +35,24 @@ const DashAddMla = () => {
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
-
+const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
   const [districts, setDistricts] = useState([]);
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedMandal, setSelectedMandal] = useState("");
   const [mandals, setMandals] = useState([]);
   const [partyName,setPartyName]=useState("");
-  console.log(formData);
-  console.log(formData);
+  
   
   useEffect(() => {
     // Fetch all districts when the component mounts
     fetch("/api/districts")
       .then((response) => response.json())
-      .then((data) => setDistricts(data))
+      .then((data) => {
+        if(data.success===false)
+          handleSignout();
+        else
+        setDistricts(data)})
       .catch((error) => console.error("Error fetching districts:", error));
   }, []);
 
@@ -65,7 +71,20 @@ const DashAddMla = () => {
       .catch((error) => console.error("Error fetching mandals:", error));
     }
   };
-
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);        }
+  };
   const handleMandalChange = (e) => {
     setSelectedMandal(e.target.value)
     setFormData({ ...formData, [e.target.id]: e.target.value });
