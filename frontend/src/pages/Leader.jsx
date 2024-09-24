@@ -2,9 +2,14 @@
 import React, { useState, useEffect } from "react";
 import { Button, Select, TextInput } from "flowbite-react";
 import { Carousel } from 'react-responsive-carousel';
+import { signoutSuccess } from '../redux/user/userSlice';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Import the carousel CSS
 
 const Leader = () => {
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [districts, setDistricts] = useState([]);
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [mandals, setMandals] = useState([]);
@@ -20,7 +25,11 @@ const Leader = () => {
     // Fetch all districts when the component mounts
     fetch("/api/leader/dist")
       .then((response) => response.json())
-      .then((data) => setDistricts(data))
+      .then((data) =>{ 
+        if(data.success===false)
+          handleSignout();
+        else
+        setDistricts(data)})
       .catch((error) => console.error("Error fetching districts:", error));
   }, []);
 
@@ -42,7 +51,7 @@ const Leader = () => {
       }
     }
   };
-console.log(sidebarData);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,8 +68,21 @@ console.log(sidebarData);
       console.log(error.message);
     }
   };
-  console.log(leader);
-  
+
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);        }
+  };
   const handleChange = (e) => {
     if (e.target.id === 'searchTerm') {
       setSidebarData({ ...sidebarData, searchTerm: e.target.value });
@@ -134,13 +156,13 @@ console.log(sidebarData);
       </div>
       <div className="w-full">
         <h1 className="text-3xl font-semibold sm:border-b border-gray-500 p-3 mt-5">
-          Leader
+          Leader results:
         </h1>
        <div className="p-7 flex flex-wrap gap-4">
           {leader && leader._id ? (
             <div className="container mx-auto p-8">
               <div className="bg-white dark:bg-black shadow-lg rounded-lg overflow-hidden">
-                <div className="bg-yellow-500 h-32"></div>
+                <div className="bg-yellow-200 h-32"></div>
                 <div className="flex justify-center -mt-16">
                   <img
                     src={leader.profilePicture}
@@ -149,7 +171,7 @@ console.log(sidebarData);
                   />
                 </div>
                 <div className="text-center px-6 py-4">
-                  <h2 className="text-3xl font-semibold text-gray-800">{leader.name}</h2>
+                  <h2 className="text-3xl font-bold text-gray-800">{leader.name}</h2>
                   <p className="text-gray-600 font-semibold mt-2">Party: {leader.partyName}</p>
                   <p className="text-gray-600 font-semibold mt-2">partyMembershipId: {leader.partyMembershipId}</p>
                 </div>

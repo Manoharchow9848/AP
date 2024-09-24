@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Button, Select, TextInput } from "flowbite-react";
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Import the carousel CSS
-
+import { signoutSuccess } from '../redux/user/userSlice';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 const LocateMla = () => {
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [districts, setDistricts] = useState([]);
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [mandals, setMandals] = useState([]);
@@ -18,10 +22,31 @@ const LocateMla = () => {
     // Fetch all districts when the component mounts
     fetch("/api/districts")
       .then((response) => response.json())
-      .then((data) => setDistricts(data))
-      .catch((error) => console.error("Error fetching districts:", error));
+      .then((data) => {
+        if(data.success===false)
+          handleSignout();
+        else setDistricts(data) 
+      })
+      .catch((error) => {
+        
+          
+      
+      });
   }, []);
-
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);        }
+  };
   const handleDistrictChange = (event) => {
     const districtName = event.target.value;
     if (!districtName) {
@@ -33,7 +58,10 @@ const LocateMla = () => {
       fetch(`/api/mandals?districtName=${districtName}`)
         .then((response) => response.json())
         .then((data) => setMandals(data.mandals))
-        .catch((error) => console.error("Error fetching mandals:", error));
+        .catch((error) => {
+         
+          console.error("Error fetching mandals:", error)
+        });
 
       if (event.target.id === "district") {
         setSidebarData({ ...sidebarData, district: event.target.value });

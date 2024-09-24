@@ -6,7 +6,8 @@ import { app } from "../firebase";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
+import { useDispatch } from 'react-redux';
+import { signoutSuccess } from '../redux/user/userSlice';
 export default function Ticket() {
   const navigate = useNavigate();
   const { currentUser, loading } = useSelector((state) => state.user);
@@ -15,7 +16,7 @@ export default function Ticket() {
   const [selectedDepartments, setSelectedDepartments] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false); // To control dropdown visibility
   const dropdownRef = useRef(); // To detect clicks outside the dropdown
-
+  const dispatch = useDispatch();
   const initialFormData = {
     name: "",
     email: "",
@@ -91,12 +92,30 @@ export default function Ticket() {
     setSelectedDepartments(updatedDepartments);
     setFormData({ ...formData, department: updatedDepartments });
   };
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);        }
+  };
 
   // Fetch districts on component mount
   useEffect(() => {
     fetch("/api/leader/dist")
       .then((response) => response.json())
-      .then((data) => setDistricts(data))
+      .then((data) => {
+        if(data.success===false)
+          handleSignout();
+        else
+        setDistricts(data)})
       .catch((error) => console.error("Error fetching districts:", error));
   }, []);
 
