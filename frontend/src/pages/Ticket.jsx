@@ -254,32 +254,7 @@ export default function Ticket() {
           ))}
         </Select>
 
-        {/* Department Dropdown */}
-        <div className="relative" ref={dropdownRef}>
-          <button
-            type="button"
-            className="w-full p-2 border border-gray-300 rounded"
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-          >
-            {selectedDepartments.length > 0 ? selectedDepartments.join(", ") : "Select Departments"}
-          </button>
-          {dropdownOpen && (
-            <div className="absolute z-10 w-full dark:bg-black  shadow-md max-h-56 overflow-auto border  rounded mt-2">
-              {departments.map((depart, index) => (
-                <label key={index} className="block px-4 py-2">
-                  <input
-                    type="checkbox"
-                    value={depart}
-                    checked={selectedDepartments.includes(depart)}
-                    onChange={handleCheckboxChange}
-                    className="mr-2"
-                  />
-                  {depart}
-                </label>
-              ))}
-            </div>
-          )}
-        </div>
+       
 
         <TextInput
           type="number"
@@ -295,6 +270,32 @@ export default function Ticket() {
           placeholder="Village"
           onChange={handleChange}
         />
+         {/* Department Dropdown */}
+         <div className="relative" ref={dropdownRef}>
+          <button
+            type="button"
+            className="w-full p-2 border border-gray-300 rounded"
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+          >
+            {selectedDepartments.length > 0 ? selectedDepartments.join(", ") : "Select Departments"}
+          </button>
+          {dropdownOpen && (
+            <div className="absolute z-10 w-full dark:bg-black bg-gray-100  shadow-md max-h-56 overflow-auto border  rounded mt-2">
+              {departments.map((depart, index) => (
+                <label key={index} className="block px-4 py-2">
+                  <input
+                    type="checkbox"
+                    value={depart}
+                    checked={selectedDepartments.includes(depart)}
+                    onChange={handleCheckboxChange}
+                    className="mr-2"
+                  />
+                  {depart}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
         <Select id="referredBy" value={formData.referredBy} onChange={handleChange}>
           <option value="">Choose Referred By</option>
           <option value="village">Village</option>
