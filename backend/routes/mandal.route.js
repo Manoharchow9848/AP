@@ -1,6 +1,6 @@
 import express from 'express'
 import { verifyToken } from '../utils/verifyUser.js';
-import { getDistrict,getMandal,create,getLead,deletelead,updateLeader, creteTicket, getTickets, updateStatus } from '../controllers/leader.controller.js';
+import { getDistrict,getMandal,create,getLead,deletelead,updateLeader, creteTicket, getTickets, updateStatus, deleteTicket } from '../controllers/leader.controller.js';
 const router = express.Router();
 
 
@@ -14,6 +14,7 @@ router.put('/update',verifyToken,updateLeader)
 router.post('/create-ticket',verifyToken,creteTicket)
 router.get('/getTic',verifyToken,getTickets)
 router.put('/updateStatus',verifyToken,updateStatus)
+router.delete('/deleteticket',verifyToken,deleteTicket)
 
 
 export default router;

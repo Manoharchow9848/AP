@@ -98,7 +98,7 @@ export const deletelead = async(req,res,next)=>{
   }
   try {
     await Leader.findByIdAndDelete(req.query.leadId);
-    res.status(200).json('The mla has been deleted');
+    res.status(200).json('The leader has been deleted');
   } catch (error) {
     next(error);
   }
@@ -236,6 +236,20 @@ export const updateStatus = async(req,res,next)=>{
       
     }, { new: true });
     res.status(200).json(updatedTicket);
+  } catch (error) {
+    next(error);
+  }
+  
+}
+export const deleteTicket = async(req,res,next)=>{
+  if (!req.user.isAdmin ) {
+    return next(errorHandler(403, 'You are not allowed to delete this ticket'));
+  }
+  try {
+    
+    
+    await Ticket.findByIdAndDelete(req.query.ticketId);
+    res.status(200).json('The ticket has been deleted');
   } catch (error) {
     next(error);
   }

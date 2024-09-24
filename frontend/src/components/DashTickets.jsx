@@ -43,6 +43,32 @@ export default function DashTickets() {
     }
 },[currentUser._id])
 
+const handleDeleteMla = async()=>{
+  try {
+     const res = await fetch(`/api/leader/deleteticket?ticketId=${mlaIdtoDelete}`,
+       {
+         method:'DELETE',
+       }
+     );
+     const data = await res.json();
+     if(!res.ok){
+       console.log(data.message);
+       
+     }else{
+       setMla((prev)=>
+         prev.filter((mla)=>mla._id!==mlaIdtoDelete)
+     );
+
+     }
+     setShowModal(false);
+    
+  } catch (error) {
+   console.log(error.message);
+   
+  }
+}
+
+
 const handleUpdateStatus = async(ticketId)=>{
   try {
     const res = await fetch(`/api/leader/updateStatus?ticketId=${ticketId}`, {
@@ -105,6 +131,7 @@ const handleUpdateStatus = async(ticketId)=>{
         <Table.HeadCell> problemType</Table.HeadCell>
         <Table.HeadCell> Attached Files</Table.HeadCell>
         <Table.HeadCell> status</Table.HeadCell>
+        <Table.HeadCell> Delete</Table.HeadCell>
         
        
       </Table.Head>
@@ -145,7 +172,13 @@ const handleUpdateStatus = async(ticketId)=>{
                 {ml.status}
               </Button> </Table.Cell >:<Table.Cell className='text-green-800 font-semibold text-xl'><Button disabled>{ml.status}</Button></Table.Cell>
             }
-
+<Table.Cell>
+            <span  onClick={() => {setShowModal(true)
+                setMlaIdtoDelete(ml._id)}
+              } className="font-medium text-red-500 hover:underline cursor-pointer">
+                Delete
+              </span>
+            </Table.Cell>
 
           </Table.Row>
         </Table.Body>
@@ -155,7 +188,30 @@ const handleUpdateStatus = async(ticketId)=>{
      </>:
      <p>YOU HAVE NO TICKETS YET</p>
      }
-       
+       <Modal
+      show={showModal}
+      onClose={() => setShowModal(false)}
+      popup
+      size='md'
+    >
+      <Modal.Header />
+      <Modal.Body>
+        <div className='text-center'>
+          <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto' />
+          <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
+            Are you sure you want to delete this ticket?
+          </h3>
+          <div className='flex justify-center gap-4'>
+            <Button color='failure' onClick={handleDeleteMla}>
+              Yes, I'm sure
+            </Button>
+            <Button color='gray' onClick={() => setShowModal(false)}>
+              No, cancel
+            </Button>
+          </div>
+        </div>
+      </Modal.Body>
+    </Modal> 
     </div>
   )
 }
