@@ -41,29 +41,7 @@ export default function About() {
       <div className="max-w-4xl mx-auto flex flex-col gap-20">
         <h1 className="text-4xl font-semibold text-center my-7">Developed By</h1>
 
-        <motion.div
-          className="flex items-center"
-          initial={{ opacity: 0, x: -100 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <div className="md:w-1/2 text-lg  font-semibold text-gray-400">
-            <p>
-              Vamsi Meka is one of the founders of Leader with a Cader. His
-              vision is to create a platform that empowers citizens and enhances
-              local governance by connecting them directly with their
-              representatives.
-            </p>
-          </div>
-          <motion.img
-            src={vamsiImage}
-            alt="Vamsi Mekka"
-            className="md:w-48 md:h-48 rounded-full object-cover ml-auto"
-            initial={{ opacity: 0, x: -100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1 }}
-          />
-        </motion.div>
+        
 
         <motion.div
           className="flex items-center justify-end mb-48"
